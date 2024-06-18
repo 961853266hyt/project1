@@ -4,7 +4,7 @@ const Product = require('../models/Product');
 const User = require('../models/User');
 
 // create new product
-router.post('/', async (req, res) => {
+const createNewProduct = async (req, res) => {
     try {
         const { name, description, price, stock, category, image_url, createdBy } = req.body;
 
@@ -20,26 +20,40 @@ router.post('/', async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
-});
+};
 
 // get all products
-router.get('/', async (req, res) => {
+const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find(); 
         res.json(products);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-});
+};
 
 // get product by ID
-router.get('/:id', getProductById, (req, res) => {
-    res.json(res.product);
-});
+const fetchProductById = async (req, res, next) => {
+    let product;
+    try {
+      product = await Product.findById(req.params.id);
+      if (product == null) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+    res.product = product;
+    next();
+};
 
+// Directly respond with the product
+const getProductById = (req, res) => {
+    res.json(res.product);
+};
 
 // update product by ID 
-router.patch('/:id', getProductById, async (req, res) => {
+const updateProductById = async (req, res) => {
     if (req.body.name != null) {
         res.product.name = req.body.name;
     }
@@ -56,7 +70,10 @@ router.patch('/:id', getProductById, async (req, res) => {
         res.product.category = req.body.category;
     }
     if (req.body.image_url != null) {
-        res.product.image_url = req.body.image_url;
+        res.product.image_url = req.body.image_url;  //Vender direct update stock
+    }
+    if (req.body.decreaseStock != null) {
+        res.product.stock -= req.body.decreaseStock;  //User place order
     }
     try {
         const updatedProduct = await res.product.save(); 
@@ -64,16 +81,23 @@ router.patch('/:id', getProductById, async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
-});
+};
 
 // delete product by ID
-router.delete('/:id', getProductById, async (req, res) => {
+const deleteProductById = async (req, res) => {
     try {
-        await res.product.remove();
+        await res.product.deleteOne();
         res.json({ message: 'Product deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-});
-
-module.exports = router;
+};
+  
+module.exports = {
+    createNewProduct,
+    getAllProducts,
+    fetchProductById,
+    getProductById,
+    updateProductById,
+    deleteProductById
+};
