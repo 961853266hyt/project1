@@ -122,7 +122,7 @@ storybook-static
 # Gatsby files
 .cache/
 # Comment out if you have #res:build in your scripts
-public
+# public
 
 # Snap VS Code settings
 .snap/
