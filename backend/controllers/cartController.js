@@ -20,6 +20,20 @@ const createCart = async (req, res) => {
   }
 };
 
+// Get a cary by id
+const getCartById = async (req, res) => {
+  const { userId } = req.params;
+  try{
+    const cart = await Cart.findOne({ belongTo: userId }).populate('products.product');
+    if (!cart) {
+        return res.status(404).json({ message: 'Cart not found' });
+    }
+    res.json(cart);
+  } catch(err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 // Update cart (add or remove products)
 const updateCartByUserId = async (req, res) => {
   const userId = req.params.userId;
@@ -71,4 +85,4 @@ const updateCartByUserId = async (req, res) => {
   }
 };
 
-module.exports = { createCart, updateCartByUserId };
+module.exports = { createCart, getCartById, updateCartByUserId };
