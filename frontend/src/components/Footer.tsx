@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Youtube } from '../../public/Youtube';
-import { Twitter } from '../../public/Twitter';
-import { Facebook } from '../../public/Facebook';
+import { Youtube } from './icons/Youtube';
+import { Twitter } from './icons/Twitter';
+import { Facebook } from './icons/Facebook';
 
 const Footer: React.FC = () => {
   return (
