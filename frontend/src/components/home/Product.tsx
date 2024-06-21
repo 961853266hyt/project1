@@ -26,7 +26,15 @@ const Product: React.FC<ProductProps> = ({ role, userId, product }) => {
       <div className="h-1/3 grid grid-cols-2 px-2">
         <p className="truncate text-main-grey text-md col-span-2">{product.name}</p>
         <p className="truncate text-black font-bold text-lg col-span-2">${product.price}</p>
-        <button className={`bg-main-purple text-sm font-semibold text-white px-4 py-1 h-fit rounded ${userId === product.createdBy ? "col-span-1 mr-2": "col-span-2 mr-0" } `}>Add</button>
+        {
+          product.stock > 0 &&
+            <button className={`bg-main-purple text-sm font-semibold text-white px-4 py-1 h-fit rounded ${userId === product.createdBy ? "col-span-1 mr-2": "col-span-2 mr-0" } `}>Add</button>
+        }
+        {
+          product.stock <= 0 &&
+            <button className={`bg-main-grey text-sm font-semibold text-white px-4 py-1 h-fit rounded ${userId === product.createdBy ? "col-span-1 mr-2": "col-span-2 mr-0" } `}>out of Stock</button>
+        }
+
         {role === "admin" && userId === product.createdBy &&
           <button className="border border-gray-300 col-span-1 bg-white text-sm font-semibold text-main-grey px-4 py-1 h-fit rounded">Edit</button>}
       </div>
