@@ -6,7 +6,7 @@ const authRouter = require('./routers/auth');
 const cartRouter = require('./routers/cartRouter');
 const productRouter = require('./routers/productRouter');
 const connectDB = require('./database');
-const port = 5000;
+const port = 8000;
 
 connectDB();
 
