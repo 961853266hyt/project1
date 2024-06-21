@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Home';
 import Cart from './cart/page';
 import Layout from '../components/Layout';
+import FakeLinks from '../components/FakeLinks';
 
 const App: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/fakelinks" element={<FakeLinks />} />
         </Routes>
       </Layout>
     </Router>
