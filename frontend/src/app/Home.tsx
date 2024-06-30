@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchProducts } from '../redux/actions.js';
 import Product from '../components/home/Product';
 
 interface Product {
@@ -14,15 +16,13 @@ interface Product {
 }
 
 const Home: React.FC = () => {
-  // const [users, setUsers] = useState([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  const user = { role: "admin", _id: "6671626f5993eb8b87c0c194"}
+  const dispatch = useDispatch();
+  const products = useSelector(state => state.products);
+  const user = useSelector(state => state.user);
+
   useEffect(() => {
-    fetch('http://localhost:8000/api/products')
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <>
