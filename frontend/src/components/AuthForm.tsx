@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { signIn } from '../redux/actions';
+import { signIn, signUp, updatePassword } from '../redux/actions';
 
 
 interface FormData {
@@ -22,13 +22,16 @@ const AuthForm: React.FC = () => {
     
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        const { email, password } = formData;
+        const { email, password} = formData;
         if (location.pathname === '/signin') {
             // dispatch signin action
             await dispatch(signIn(email, password));
+        } else if (location.pathname === '/signup') {
+            dispatch(signUp(email, password));
+        } else if (location.pathname === '/update-password') {
+            dispatch(updatePassword(email));
         }
-
-        navigate('/'); // after signin, redirect to home page
+        navigate('/'); // redirect to home page
     }
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,10 +41,15 @@ const AuthForm: React.FC = () => {
             [name]: value,
         });
     }
-
+    const signinHeader = 'Sign in to your account'
+    const signupHeader = 'Sign up an account'
+    const updatePasswordHeader = 'Update your password'
+    const signinBtn = 'Sign in'
+    const signupBtn = 'Create account'
+    const updatePasswordBtn = 'Update password'
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Sign in to your account</h2>
+            <h2>{location.pathname === '/signin' ?signinHeader:location.pathname === '/signup' ?signupHeader:updatePasswordHeader}</h2>
             <div>
                 <label>Email</label>
                 <input
@@ -53,16 +61,21 @@ const AuthForm: React.FC = () => {
                 />
             </div>
             <div>
-                <label>Password</label>
-                <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
+                {
+                    location.pathname === 'update-password'?null:
+                    <>
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </>
+                }
             </div>
-            <button type="submit">Sign in</button>
+            <button type="submit">{location.pathname === '/signin'?signinBtn:location.pathname === '/signup'?signupBtn:updatePasswordBtn}</button>
         </form>
     )
 
