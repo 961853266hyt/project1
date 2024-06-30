@@ -5,10 +5,10 @@ import { SearchIcon } from './icons/SearchIcon';
 
 const Header: React.FC = () => {
   return (
-    <header className="fixed top-0 left-0 w-full h-32 lg:h-16 bg-gray-800 text-white justify-around">
-      <div className="max-w-screen-2xl mx-auto grid grid-cols-4 gap-4 py-4 px-4 lg:px-16">
+    <header className="px-8 lg:px-12 fixed top-0 left-0 w-full h-32 lg:h-16 bg-gray-800 text-white justify-around">
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-4 gap-4 py-4">
 
-        <div className="hidden lg:block col-span-1 order-1">
+        <div className="me-auto hidden lg:block col-span-1 order-1">
           <p className="font-bold text-xl">Management <span className="text-xs font-bold">Chuwa</span> </p>
         </div>
 

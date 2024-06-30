@@ -5,6 +5,8 @@ const initialState = {
   user: {
     role: 'admin',
     _id: '6671626f5993eb8b87c0c194'
+    // role: 'user',
+    // _id: '667162885993eb8b87c0c197'
   }
 };
 

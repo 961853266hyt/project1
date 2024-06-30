@@ -12,6 +12,7 @@ export default {
         "main-navy": "#111827",
         "main-black": "#111827",
         "main-purple": "#5048E5",
+        "main-light-grey": "#F9FAFB",
         "main-grey": "#6B7280",
         "user-yellow": "#FCE944",
         "main-red": "#F53838",
