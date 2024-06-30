@@ -7,7 +7,7 @@ import { signIn } from '../redux/actions';
 interface FormData {
     email: string;
     password: string;
-}
+};
 
 
 const AuthForm: React.FC = () => {
@@ -68,4 +68,4 @@ const AuthForm: React.FC = () => {
 
 }
 
-export default function AuthForm;
+export default AuthForm;
