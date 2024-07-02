@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from 'react-redux';
 
 interface ProductProps {
   product: {
@@ -17,6 +18,11 @@ interface ProductProps {
 }
 
 const Product: React.FC<ProductProps> = ({ role, userId, product }) => {
+  const user = useSelector((state) => state.user);
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return(
     <div className="col-span-1 w-full h-72 border border-gray-300 rounded flex flex-col">
       <div className="h-2/3 p-2">

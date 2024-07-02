@@ -4,6 +4,9 @@ import * as Yup from 'yup';
 import CustomInput from './custom/CustomInput';
 import CustomTextarea from './custom/CustomTextarea';
 import CustomSelect from './custom/CustomCategorySelect';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { addProduct } from '../redux/actions.js'
 
 interface ProductValues {
   name: string;
@@ -13,7 +16,7 @@ interface ProductValues {
   category: string;
   image_url: string;
   createdBy: string;
-  createdAt: Date;
+  // createdAt: Date;
 }
 
 const validationSchema = Yup.object().shape({
@@ -42,6 +45,14 @@ const validationSchema = Yup.object().shape({
 });
 
 const AddProduct: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user);
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   const initialValues: ProductValues = {
     name: '',
     description: '',
@@ -49,12 +60,18 @@ const AddProduct: React.FC = () => {
     stock: 0,
     category: '',
     image_url: '',
-    createdBy: '', // This should be set with the current user's ID
-    createdAt: new Date(),
+    createdBy: user._id,
+    // createdAt: new Date(),
   };
 
-  const handleSubmit = (values: ProductValues) => {
-    console.log(values);
+  const handleSubmit = async (values: ProductValues) => {
+    const productData = {
+      ...values,
+      createdBy: user._id,
+      // createdAt: new Date(),
+    };
+    await dispatch(addProduct(productData));
+    navigate('/');
   };
 
   return (

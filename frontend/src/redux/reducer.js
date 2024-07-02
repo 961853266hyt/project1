@@ -1,4 +1,4 @@
-import { SET_PRODUCTS } from './actions';
+import { SET_PRODUCTS, ADD_PRODUCT } from './actions';
 
 const initialState = {
   products: [],
@@ -17,6 +17,17 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         products: action.payload
       };
+    case ADD_PRODUCT:
+      return {
+        ...state,
+        products: [...state.products, action.payload]
+      };
+    // case SIGN_IN:
+    // case SIGN_UP:	
+    //   return {
+    //     ...state,
+    //     user: action.payload
+    //   };
     default:
       return state;
   }
