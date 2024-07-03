@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import CustomInput from './custom/CustomInput.js';
 import CustomTextarea from './custom/CustomTextarea.js';
 import CustomSelect from './custom/CustomCategorySelect.js';
+import CustomImageUrlInput from './custom/CustomImageUrlInput.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addProduct, updateProduct, getProductById } from '../redux/actions.js';
@@ -100,13 +101,28 @@ const AddOrEditProduct: React.FC = () => {
             <Form>
               <CustomInput label="Product Name" name="name" type="text" />
               <CustomTextarea label="Product Description" name="description" />
-              <CustomSelect label="Category" name="category" />
-              <CustomInput label="Price" name="price" type="number" />
-              <CustomInput label="In Stock Quantity" name="stock" type="number" />
-              <CustomInput label="Add Image Link" name="image_url" type="text" />
-              <button type="submit" className="w-full px-4 py-2 bg-main-purple text-white rounded">
-                { productID ? 'Update Product' : 'Add Product'}
-              </button>
+              <div className='grid grid-cols-1 md:grid-cols-2'>
+                <span className='col-span-1 mr-1'>
+                  <CustomSelect label="Category" name="category" />
+                </span>
+                <span className='col-span-1'>
+                  <CustomInput label="Price" name="price" type="number" />
+                </span>
+              </div>
+
+              <div className='grid grid-cols-1 md:grid-cols-3'>
+                <span className='col-span-1 mr-1'>
+                  <CustomInput label="In Stock Quantity" name="stock" type="number" />
+                </span>
+                <span className='col-span-2'>
+                  <CustomImageUrlInput label="Upload Image" name="image_url" />
+                </span>
+              </div>
+              <div className='flex justify-center md:justify-start'>
+                <button type="submit" className="w-fit px-4 py-2 bg-main-purple text-white rounded">
+                  { productID ? 'Update Product' : 'Add Product'}
+                </button>
+              </div>
             </Form>
           </Formik>
         </div>
