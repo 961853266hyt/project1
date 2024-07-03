@@ -24,7 +24,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const handleAddProductClick = () => {
-    navigate('/addproduct');
+    navigate('/add-product');
   };
 
   useEffect(() => {

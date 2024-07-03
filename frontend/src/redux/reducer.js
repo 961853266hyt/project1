@@ -1,4 +1,4 @@
-import { SET_PRODUCTS, ADD_PRODUCT } from './actions';
+import { SET_PRODUCTS, ADD_PRODUCT, UPDATE_PRODUCT, GET_PRODUCT_BY_ID } from './actions';
 
 const initialState = {
   products: [],
@@ -21,6 +21,18 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         products: [...state.products, action.payload]
+      };
+    case UPDATE_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map((product) =>
+          product._id === action.payload._id ? action.payload : product
+        ),
+      };
+    case GET_PRODUCT_BY_ID:
+      return {
+        ...state,
+        product: action.payload,
       };
     // case SIGN_IN:
     // case SIGN_UP:	

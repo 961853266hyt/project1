@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import CustomInput from './custom/CustomInput';
-import CustomTextarea from './custom/CustomTextarea';
-import CustomSelect from './custom/CustomCategorySelect';
+import CustomInput from './custom/CustomInput.js';
+import CustomTextarea from './custom/CustomTextarea.js';
+import CustomSelect from './custom/CustomCategorySelect.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addProduct } from '../redux/actions.js'
+import { useNavigate, useParams } from 'react-router-dom';
+import { addProduct, updateProduct, getProductById } from '../redux/actions.js';
 
 interface ProductValues {
   name: string;
@@ -16,17 +16,16 @@ interface ProductValues {
   category: string;
   image_url: string;
   createdBy: string;
-  // createdAt: Date;
 }
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Please enter the product name!"),
   description: Yup.string().optional(),
   price: Yup.number().min(1, "The price should be more than $1!").required("Please enter the price!"),
-  stock: Yup.number().min(1, "You can't create a product with 0 stock!").integer('Please enter an integer number!').required(),
+  stock: Yup.number().min(0, "You can't create a product with negative stock!").integer('Please enter an integer number!').required(),
   category: Yup.string()
     .oneOf([
-      "Computers", "Gaming", "Headset", "Mouse", "Pet", "Smartphone"
+      "Computers", "Gaming", "Headset", "Mouse", "Outdoors", "Pet", "Smartphone"
     ])
     .required("Please select a category of your product!"),
   image_url: Yup.string().url().required("Please enter your image URL!").transform((currentValue) => {
@@ -44,42 +43,56 @@ const validationSchema = Yup.object().shape({
   })
 });
 
-const AddProduct: React.FC = () => {
+const AddOrEditProduct: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const user = useSelector((state) => state.user);
-  if (!user) {
-    return <div>Loading...</div>;
-  }
-
-  const initialValues: ProductValues = {
+  const { productID } = useParams();
+  const [initialValues, setInitialValues] = useState<ProductValues>({
     name: '',
     description: '',
     price: 0,
     stock: 0,
     category: '',
     image_url: '',
-    createdBy: user._id,
-    // createdAt: new Date(),
-  };
+    createdBy: '',
+  });
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (productID) {
+      const fetchData = async () => {
+        const product = await dispatch(getProductById(productID));
+        setInitialValues(product);
+      };
+      fetchData();
+    }
+  }, [dispatch, productID]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   const handleSubmit = async (values: ProductValues) => {
     const productData = {
       ...values,
       createdBy: user._id,
-      // createdAt: new Date(),
     };
-    await dispatch(addProduct(productData));
+    if (productID) {
+      await dispatch(updateProduct(productID, productData));
+    }
+    else{
+      await dispatch(addProduct(productData));
+    }
     navigate('/');
   };
 
   return (
     <>
       <section className='w-full md:w-[660px]'>
-        <h1 className="text-2xl font-bold mb-4">Create Product</h1>
+        <h1 className="text-2xl font-bold mb-4">{ productID ? 'Edit Product' : 'Create Product'}</h1>
         <div className="mx-auto bg-white p-8 rounded w-full">
           <Formik
+            enableReinitialize
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -92,7 +105,7 @@ const AddProduct: React.FC = () => {
               <CustomInput label="In Stock Quantity" name="stock" type="number" />
               <CustomInput label="Add Image Link" name="image_url" type="text" />
               <button type="submit" className="w-full px-4 py-2 bg-main-purple text-white rounded">
-                Add Product
+                { productID ? 'Update Product' : 'Add Product'}
               </button>
             </Form>
           </Formik>
@@ -102,4 +115,4 @@ const AddProduct: React.FC = () => {
   );
 };
 
-export default AddProduct;
+export default AddOrEditProduct;

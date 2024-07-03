@@ -11,7 +11,8 @@ export const SIGN_UP = 'SIGN_UP';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 export const LOG_OUT = 'LOG_OUT';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
-
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
+export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID';
 
 export const signIn = (credentials) => async (dispatch) => {
   try {
@@ -61,4 +62,23 @@ export const addProduct = (product) => async (dispatch) => {
   catch (error) {
     console.error(error);
   }
-}
+};
+
+export const updateProduct = (id, product) => async (dispatch) => {
+  try {
+    const response = await axios.patch(`${API_URL}/api/products/${id}`, product);
+    dispatch({ type: UPDATE_PRODUCT, payload: response.data });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getProductById = (id) => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/products/${id}`);
+    dispatch({ type: GET_PRODUCT_BY_ID, payload: response.data });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

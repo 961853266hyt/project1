@@ -13,6 +13,7 @@ const CustomSelect: React.FC<{ label: string; name: string }> = ({ label, ...pro
         <option value="Gaming">Gaming</option>
         <option value="Headset">Headset</option>
         <option value="Mouse">Mouse</option>
+        <option value="Outdoors">Outdoors</option>
         <option value="Pet">Pet</option>
         <option value="Smartphone">Smartphone</option>
       </select>
