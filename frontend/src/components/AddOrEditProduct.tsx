@@ -8,6 +8,7 @@ import CustomImageUrlInput from './custom/CustomImageUrlInput.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addProduct, updateProduct, getProductById } from '../redux/actions.js';
+import { ImageIcon } from '../components/icons/imageIcon.js';
 
 interface ProductValues {
   name: string;
@@ -57,6 +58,7 @@ const AddOrEditProduct: React.FC = () => {
     image_url: '',
     createdBy: '',
   });
+  const [preview, setPreview] = useState<string | null>(null);
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -64,6 +66,7 @@ const AddOrEditProduct: React.FC = () => {
       const fetchData = async () => {
         const product = await dispatch(getProductById(productID));
         setInitialValues(product);
+        setPreview(product.image_url);
       };
       fetchData();
     }
@@ -72,6 +75,32 @@ const AddOrEditProduct: React.FC = () => {
   if (!user) {
     return <div>Loading...</div>;
   }
+
+  const handleShowImage = async (url: string) => {
+    const urlSchema = Yup.string().url().required("Please enter your image URL!").transform((currentValue) => {
+      const doesNotStartWithHttp =
+        currentValue &&
+        !(
+          currentValue.startsWith('http://') ||
+          currentValue.startsWith('https://')
+        );
+
+      if (doesNotStartWithHttp) {
+        return `http://${currentValue}`;
+      }
+      return currentValue;
+    });
+
+    try {
+      const transformedValue = urlSchema.cast(url);
+      await urlSchema.validate(transformedValue);
+      setPreview(transformedValue);
+    } 
+    catch (error) {
+      console.error(error.message);
+      setPreview(null);
+    }
+  };
 
   const handleSubmit = async (values: ProductValues) => {
     const productData = {
@@ -98,32 +127,49 @@ const AddOrEditProduct: React.FC = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form>
-              <CustomInput label="Product Name" name="name" type="text" />
-              <CustomTextarea label="Product Description" name="description" />
-              <div className='grid grid-cols-1 md:grid-cols-2'>
-                <span className='col-span-1 mr-1'>
-                  <CustomSelect label="Category" name="category" />
-                </span>
-                <span className='col-span-1'>
-                  <CustomInput label="Price" name="price" type="number" />
-                </span>
-              </div>
+            {({ values }) => (
+              <Form>
+                <CustomInput label="Product Name" name="name" type="text" />
+                <CustomTextarea label="Product Description" name="description" />
+                <div className='grid grid-cols-1 md:grid-cols-2'>
+                  <span className='col-span-1 mr-1'>
+                    <CustomSelect label="Category" name="category" />
+                  </span>
+                  <span className='col-span-1'>
+                    <CustomInput label="Price" name="price" type="number" />
+                  </span>
+                </div>
 
-              <div className='grid grid-cols-1 md:grid-cols-3'>
-                <span className='col-span-1 mr-1'>
-                  <CustomInput label="In Stock Quantity" name="stock" type="number" />
-                </span>
-                <span className='col-span-2'>
-                  <CustomImageUrlInput label="Upload Image" name="image_url" />
-                </span>
-              </div>
-              <div className='flex justify-center md:justify-start'>
-                <button type="submit" className="w-fit px-4 py-2 bg-main-purple text-white rounded">
-                  { productID ? 'Update Product' : 'Add Product'}
-                </button>
-              </div>
-            </Form>
+                <div className='grid grid-cols-1 md:grid-cols-3'>
+                  <span className='col-span-1 mr-1'>
+                    <CustomInput label="In Stock Quantity" name="stock" type="number" />
+                  </span>
+                  <span className='col-span-2'>
+                    <CustomImageUrlInput label="Upload Image" name="image_url" handleShowImage={() => handleShowImage(values.image_url)} />
+                  </span>
+                </div>
+                
+                {!preview && (
+                  <div className='my-4 grid mx-auto border border-gray-200 border-dashed w-full md:w-2/3 h-[200px] rounded gap-y-0'>
+                    <div className='grid mx-auto mt-16 h-fit'>
+                      <span className='flex mx-auto mb-2'><ImageIcon /></span>
+                      <p className='text-main-grey font-semibold text-center text-lg'>image preview!</p>
+                    </div>
+                  </div>
+                )}
+                {preview && (
+                  <div className="my-4">
+                    <img src={preview} alt="Preview" className="grid mx-auto py-2 rounded border border-gray-200 border-dashed w-full md:w-2/3 h-[200px] object-contain" />
+                  </div>
+                )}
+
+                <div className='flex justify-center md:justify-start'>
+                  <button type="submit" className="w-fit px-4 py-2 bg-main-purple text-white rounded">
+                    { productID ? 'Update Product' : 'Add Product'}
+                  </button>
+                </div>
+              </Form>
+            )}
           </Formik>
         </div>
       </section>
