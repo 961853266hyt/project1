@@ -118,11 +118,13 @@ const Home: React.FC = () => {
             </div>
           ))}
         </div>
-        <Pagination 
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        <div className='flex justify-center md:justify-end'>
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </section>
     </>
   );
