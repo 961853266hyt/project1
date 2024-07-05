@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Exclamation } from './icons/Exclamation';
 
 const NotFound: React.FC = () => {
   const navigate = useNavigate();
@@ -9,12 +10,13 @@ const NotFound: React.FC = () => {
   
   return (
     <div className="relative items-center justify-center">
-      <h1 className="text-3xl text-dark-grey font-bold">404 - Page Not Found</h1>
+      <span className='flex justify-center'><Exclamation /></span>
+      <h1 className="mt-8 text-3xl text-black font-bold">Oops, something went wrong!</h1>
       <button 
-        className='mt-6 grid mx-auto px-6 py-2 border bg-main-purple text-white text-lg font-semibold rounded'
+        className='mt-8 grid mx-auto px-16 py-2 border bg-main-purple text-white text-lg rounded'
         onClick={handleHome} 
       >
-        Back to HomePage
+        Go Home
       </button>
     </div>
   );

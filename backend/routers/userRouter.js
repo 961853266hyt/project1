@@ -5,7 +5,7 @@ const {
     getAllUser,
     fetchUserById,
     getUserById,
-    updatUserById
+    updateUserById
 } = require('../controllers/userController')
 
 const router = express.Router();
@@ -13,6 +13,6 @@ const router = express.Router();
 router.post('/', createUser);
 router.get('/', getAllUser);
 router.get('/:id', fetchUserById, getUserById);
-router.patch('/:id', fetchUserById, updatUserById);
+router.patch('/:id', fetchUserById, updateUserById);
 
 module.exports = router;
