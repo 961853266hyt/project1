@@ -4,7 +4,8 @@ const initialState = {
   products: [],
   user: {
     role: 'admin',
-    _id: '6671626f5993eb8b87c0c194'
+    // _id: '6671626f5993eb8b87c0c194'
+    _id: '667162335993eb8b87c0c192'
     // role: 'user',
     // _id: '667162885993eb8b87c0c197'
   }

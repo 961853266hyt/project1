@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
   stock: Yup.number().min(0, "You can't create a product with negative stock!").integer('Please enter an integer number!').required(),
   category: Yup.string()
     .oneOf([
-      "Computers", "Gaming", "Headset", "Mouse", "Outdoors", "Pet", "Smartphone"
+      "Computers", "Gaming", "Headset", "Mouse", "Outdoors", "Pet", "Smartphone", "Tablet"
     ])
     .required("Please select a category of your product!"),
   image_url: Yup.string().url().required("Please enter your image URL!").transform((currentValue) => {

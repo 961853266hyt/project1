@@ -16,6 +16,8 @@ const CustomSelect: React.FC<{ label: string; name: string }> = ({ label, ...pro
         <option value="Outdoors">Outdoors</option>
         <option value="Pet">Pet</option>
         <option value="Smartphone">Smartphone</option>
+        <option value="Tablet">Tablet</option>
+        
       </select>
       {meta.touched && meta.error ? (
         <div className="text-error-orange text-sm mt-1 text-right">{meta.error}</div>

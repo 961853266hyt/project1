@@ -15,7 +15,7 @@ const CustomImageUrlInput: React.FC<{ label: string; name: string; type?: string
   return (
     <div className="mb-4">
       <label className="block text-main-grey">{label}</label>
-      <div className="flex items-center border border-gray-300 rounded mt-1">
+      <div className="flex grow items-center border border-gray-300 rounded mt-1">
         <input
           {...field}
           {...props}
@@ -25,7 +25,7 @@ const CustomImageUrlInput: React.FC<{ label: string; name: string; type?: string
         <button
           type="button"
           onClick={handleShowImage}
-          className="px-2 py-1 bg-main-purple text-white rounded mr-1 h-8"
+          className="px-1 py-0.5 sm:px-2 sm:py-1 bg-main-purple text-white rounded mr-1 h-8 text-xs sm:text-md"
         >
           Upload
         </button>
