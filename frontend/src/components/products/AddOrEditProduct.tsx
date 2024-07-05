@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import CustomInput from './custom/CustomInput.js';
-import CustomTextarea from './custom/CustomTextarea.js';
-import CustomSelect from './custom/CustomCategorySelect.js';
-import CustomImageUrlInput from './custom/CustomImageUrlInput.js';
+import CustomInput from '../custom/CustomInput.js';
+import CustomTextarea from '../custom/CustomTextarea.js';
+import CustomSelect from '../custom/CustomCategorySelect.js';
+import CustomImageUrlInput from '../custom/CustomImageUrlInput.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addProduct, updateProduct, getProductById } from '../redux/actions.js';
-import { ImageIcon } from '../components/icons/imageIcon.js';
+import { addProduct, updateProduct, getProductById } from '../../redux/actions.js';
+import { ImageIcon } from '../icons/imageIcon.js';
 
 interface ProductValues {
   name: string;

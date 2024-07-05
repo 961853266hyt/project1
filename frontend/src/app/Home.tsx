@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../redux/actions.js';
 import { useNavigate } from 'react-router-dom';
-import Product from '../components/Product.js';
+import Product from '../components/products/Product.js';
 
 interface Product {
   _id: string;

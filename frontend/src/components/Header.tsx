@@ -2,17 +2,23 @@ import React from 'react';
 import { ProfileIcon } from './icons/ProfileIcon';
 import { CartIcon } from './icons/CartIcon';
 import { SearchIcon } from './icons/SearchIcon';
+import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const handleHome = () => {
+    navigate(`/`);
+  };
+
   return (
     <header className="px-8 lg:px-12 fixed top-0 left-0 w-full h-32 lg:h-16 bg-gray-800 text-white justify-around">
       <div className="max-w-screen-2xl mx-auto grid grid-cols-4 gap-4 py-4">
 
-        <div className="me-auto hidden lg:block col-span-1 order-1">
+        <div onClick={handleHome} className="cursor-pointer me-auto hidden lg:block col-span-1 order-1">
           <p className="font-bold text-xl">Management <span className="text-xs font-bold">Chuwa</span> </p>
         </div>
 
-        <div className="block lg:hidden col-span-1 order-1">
+        <div onClick={handleHome}  className="cursor-pointer block lg:hidden col-span-1 order-1">
           <p className="font-bold text-xl">M<span className="text-xs font-bold">Chuwa</span> </p>
         </div>
 

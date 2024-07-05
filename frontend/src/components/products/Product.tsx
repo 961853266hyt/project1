@@ -30,14 +30,19 @@ const Product: React.FC<ProductProps> = ({ role, userId, product }) => {
     navigate(`/edit-product/${id}`);
   };
 
+  const handleDetail = (id: string) => {
+    navigate(`/product-detail/${id}`);
+  };
+  
+
   return(
     <div className="col-span-1 w-full h-72 border border-gray-300 rounded flex flex-col">
-      <div className="h-2/3 p-2">
-        {product.image_url && <img src={product.image_url} alt={product.name} className="object-contain w-full h-full flex-grow"/>}
+      <div onClick={() => handleDetail(product._id)} className="h-2/3 p-2 cursor-pointer">
+        {product.image_url && <img src={product.image_url} alt={product.name} className="object-contain w-full h-full grow"/>}
       </div>
       
       <div className="h-1/3 grid grid-cols-2 px-2 pb-1">
-        <p className="truncate text-main-grey text-md col-span-2">{product.name}</p>
+        <p onClick={() => handleDetail(product._id)} className="cursor-pointer truncate text-main-grey text-md col-span-2">{product.name}</p>
         <p className="truncate text-black font-bold text-lg col-span-2">${product.price}</p>
         {
           product.stock > 0 &&
