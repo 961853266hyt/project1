@@ -50,7 +50,7 @@ const Product: React.FC<ProductProps> = ({ role, userId, product }) => {
         }
         {
           product.stock <= 0 &&
-            <button className={`bg-main-grey text-sm font-semibold text-white px-4 py-1 h-fit rounded ${userId === product.createdBy ? "col-span-1 mr-2": "col-span-2 mr-0" } `}>out of Stock</button>
+            <button className={`truncate bg-main-grey text-sm font-semibold text-white px-4 py-1 h-fit rounded ${userId === product.createdBy ? "col-span-1 mr-2": "col-span-2 mr-0" } `}>out of Stock</button>
         }
 
         {role === "admin" && userId === product.createdBy &&

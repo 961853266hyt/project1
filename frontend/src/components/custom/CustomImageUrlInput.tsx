@@ -19,7 +19,7 @@ const CustomImageUrlInput: React.FC<{ label: string; name: string; type?: string
         <input
           {...field}
           {...props}
-          className={`grow px-4 py-2 focus:border-block rounded ${errorClass}`}
+          className={`grow px-4 py-2 rounded ${errorClass}`}
           onChange={handleChange}
         />
         <button
