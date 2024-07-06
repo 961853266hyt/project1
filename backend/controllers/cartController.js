@@ -12,6 +12,12 @@ const createCart = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // Check if the user already has a cart
+    let cart = await Cart.findOne({ belongTo: userId });
+    if (cart) {
+      return res.status(200).json(cart);
+    }
+
     const newCart = new Cart({ belongTo: userId, products: [] });
     const savedCart = await newCart.save();
     res.status(201).json(savedCart);

@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Cart = require('../models/Cart');
 
 // create new user
 const createUser = async (req, res) => {
@@ -6,6 +7,11 @@ const createUser = async (req, res) => {
         const { email, password, role } = req.body;
         const newUser = new User({ email, password, role });
         const user = await newUser.save();
+
+        // Create an empty cart for the new user
+        const newCart = new Cart({ belongTo: user._id, products: [] });
+        await newCart.save();
+
         res.status(201).json(user); // 201 indicates that a new resource has been created
     } catch (err) {
         res.status(400).json({ message: err.message }); // 400 indicates that the request is invalid
@@ -43,7 +49,7 @@ const getUserById = (req, res) => {
 };
 
 // update user by ID
-const updatUserById = async (req, res) => {
+const updateUserById = async (req, res) => {
     if (req.body.email != null) {
         res.user.email = req.body.email;
     }
@@ -66,5 +72,5 @@ module.exports = {
     getAllUser,
     fetchUserById,
     getUserById,
-    updatUserById
+    updateUserById
 };
