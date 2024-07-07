@@ -27,9 +27,9 @@ const AuthForm: React.FC = () => {
             // dispatch signin action
             await dispatch(signIn(email, password));
         } else if (location.pathname === '/signup') {
-            dispatch(signUp(email, password));
+            await dispatch(signUp(email, password));
         } else if (location.pathname === '/update-password') {
-            dispatch(updatePassword(email));
+            await dispatch(updatePassword(email));
         }
         navigate('/'); // redirect to home page
     }
