@@ -21,12 +21,13 @@ router.post('/signin', async (req, res) => {
     };
 
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1d' });
-    res.json({ token });
+    res.json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
 router.post('/signup', createUser);
+router.post('/update-password')
 
 module.exports = router;

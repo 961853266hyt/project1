@@ -29,9 +29,9 @@ const createUser = async (req, res) => {
         };
       
         const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1d' });
-        res.status(201).json({ token });
+        res.status(201).json({ token, user });
     } catch (err) {
-        res.status(400).json({ message: err.message }); // 400 indicates that the request is invalid
+        res.status(500).json({ message: err.message }); 
     }
 };
 

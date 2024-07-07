@@ -1,4 +1,8 @@
-import { SET_PRODUCTS, ADD_PRODUCT, UPDATE_PRODUCT, GET_PRODUCT_BY_ID, GET_CART_BY_ID, UPDATE_CART  } from './actions';
+import { SET_PRODUCTS, ADD_PRODUCT, UPDATE_PRODUCT, GET_PRODUCT_BY_ID, GET_CART_BY_ID, UPDATE_CART, 
+  SIGN_IN,
+  SIGN_UP,
+  UPDATE_PASSWORD,
+  LOG_OUT } from './actions';
 
 const initialState = {
   products: [],
@@ -45,6 +49,29 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: action.payload,
+      };
+    case SIGN_IN:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case SIGN_UP:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case UPDATE_PASSWORD:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload,
+        },
+      };
+    case LOG_OUT:
+      return {
+        ...state,
+        user: null,
       };
     default:
       return state;

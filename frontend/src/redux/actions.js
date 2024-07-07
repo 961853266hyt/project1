@@ -15,10 +15,13 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID';
 export const GET_CART_BY_ID = 'GET_CART_BY_ID';
 export const UPDATE_CART = 'UPDATE_CART';
+const JWT_KEY = 'token';
 
 export const signIn = (credentials) => async (dispatch) => {
   try {
       const response = await axios.post(`${API_URL}/api/auth/signin`, credentials);
+      const { token } = response.data;
+      localStorage.setItem(JWT_KEY, token);
       dispatch({ type: SIGN_IN, payload: response.data });
   } catch (error) {
       console.error(error);
@@ -28,6 +31,8 @@ export const signIn = (credentials) => async (dispatch) => {
 export const signUp = (credentials) => async (dispatch) => {
   try {
       const response = await axios.post(`${API_URL}/api/auth/signup`, credentials);
+      const { token } = response.data;
+      localStorage.setItem(JWT_KEY, token);
       dispatch({ type: SIGN_UP, payload: response.data });
   } catch (error) {
       console.error(error);
@@ -42,6 +47,11 @@ export const updatePassword = (credentials) => async (dispatch) => {
       console.error(error);
   }
 }
+
+export const logOut = () => (dispatch) => {
+  localStorage.removeItem(JWT_KEY); // remove JWT token
+  dispatch({type: LOG_OUT});
+};
 
 export const setProducts = (products) => ({
   type: SET_PRODUCTS, payload: products
