@@ -25,9 +25,9 @@ const AuthForm: React.FC = () => {
         const { email, password} = formData;
         if (location.pathname === '/signin') {
             // dispatch signin action
-            await dispatch(signIn(email, password));
+            await dispatch(signIn({email, password, role:"user"}));
         } else if (location.pathname === '/signup') {
-            await dispatch(signUp(email, password));
+            await dispatch(signUp({email, password, role:"user"}));
         } else if (location.pathname === '/update-password') {
             await dispatch(updatePassword(email));
         }

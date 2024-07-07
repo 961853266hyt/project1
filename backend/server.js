@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/carts', cartRouter);
 app.use('/api/products', productRouter);

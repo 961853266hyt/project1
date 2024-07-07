@@ -18,7 +18,7 @@ export const UPDATE_CART = 'UPDATE_CART';
 
 export const signIn = (credentials) => async (dispatch) => {
   try {
-      const response = await axios.post(`${API_URL}/signin`, credentials);
+      const response = await axios.post(`${API_URL}/api/auth/signin`, credentials);
       dispatch({ type: SIGN_IN, payload: response.data });
   } catch (error) {
       console.error(error);
@@ -27,7 +27,7 @@ export const signIn = (credentials) => async (dispatch) => {
 
 export const signUp = (credentials) => async (dispatch) => {
   try {
-      const response = await axios.post(`${API_URL}/signup`, credentials);
+      const response = await axios.post(`${API_URL}/api/auth/signup`, credentials);
       dispatch({ type: SIGN_UP, payload: response.data });
   } catch (error) {
       console.error(error);
@@ -36,7 +36,7 @@ export const signUp = (credentials) => async (dispatch) => {
 
 export const updatePassword = (credentials) => async (dispatch) => {
   try {
-      const response = await axios.put(`${API_URL}/update-password`, credentials);
+      const response = await axios.put(`${API_URL}/api/auth/update-password`, credentials);
       dispatch({ type: UPDATE_PASSWORD, payload: response.data });
   } catch (error) {
       console.error(error);
