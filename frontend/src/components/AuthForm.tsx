@@ -7,7 +7,7 @@ import { signIn, signUp, updatePassword } from '../redux/actions';
 interface FormData {
     email: string;
     password: string;
-};
+}
 
 
 const AuthForm: React.FC = () => {
@@ -41,6 +41,10 @@ const AuthForm: React.FC = () => {
             [name]: value,
         });
     }
+
+    const handleClose = () => {
+      navigate('/');
+    }
     const signinHeader = 'Sign in to your account'
     const signupHeader = 'Sign up an account'
     const updatePasswordHeader = 'Update your password'
@@ -49,7 +53,13 @@ const AuthForm: React.FC = () => {
     const updatePasswordBtn = 'Update password'
     return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-1/3 max-w-sm p-6 border border-gray-300 rounded shadow-lg">
+      <div className="relative w-full max-w-2xl p-6 border border-gray-300 rounded shadow-lg">
+        <button
+          onClick={handleClose}
+          className="absolute top-2 right-2 text-black"
+        >
+          &times;
+        </button>
         <form onSubmit={handleSubmit}>
           <h2 className="text-xl font-bold mb-4 text-center">
             {location.pathname === '/signin' ? signinHeader :
