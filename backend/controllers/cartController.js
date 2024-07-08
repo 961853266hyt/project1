@@ -43,7 +43,7 @@ const getCartById = async (req, res) => {
 // Update cart (add or remove products)
 const updateCartByUserId = async (req, res) => {
   const userId = req.params.userId;
-  const { productId, action } = req.body;
+  const { productId, action, quantity } = req.body;
 
   try {
     let cart = await Cart.findOne({ belongTo: userId });
@@ -61,13 +61,16 @@ const updateCartByUserId = async (req, res) => {
       if (productInCart) {
         if (productInCart.number < product.stock) {
           productInCart.number += 1;
-        } else {
+        } 
+        else {
           return res.status(400).json({ message: 'Cannot add more than available stock' });
         }
-      } else {
+      } 
+      else {
         if (product.stock > 0) {
           cart.products.push({ product: productId, number: 1 });
-        } else {
+        } 
+        else {
           return res.status(400).json({ message: 'Product out of stock' });
         }
       }
@@ -79,14 +82,37 @@ const updateCartByUserId = async (req, res) => {
         if (productInCart.number <= 0) {
           cart.products = cart.products.filter(item => item.product.toString() !== productId);
         }
-      } else {
+      } 
+      else {
         return res.status(400).json({ message: 'Product not in cart' });
       }
     }
 
+    if (action === 'update') {
+      if (productInCart) {
+        if (quantity > product.stock) {
+          return res.status(400).json({ message: 'Cannot add more than available stock' });
+        }
+        if (quantity <= 0) {
+          cart.products = cart.products.filter(item => item.product.toString() !== productId);
+        } 
+        else {
+          productInCart.number = quantity;
+        }
+      } 
+      else {
+        return res.status(400).json({ message: 'Product not in cart' });
+      }
+    }
+
+    if (action === 'remove') {
+      cart.products = cart.products.filter(item => item.product.toString() !== productId);
+    }
+
     await cart.save();
     res.json(cart);
-  } catch (err) {
+  } 
+  catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
