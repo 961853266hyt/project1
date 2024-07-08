@@ -7,6 +7,7 @@ import AddOrEditProduct from '../components/products/AddOrEditProduct';
 import ProductDetail from '../components/products/ProductDetail';
 import AuthForm from '../components/AuthForm';
 import NotFound from '../components/NotFound';
+import PrivateRoute from '../components/PrivateRoute';
 
 
 const App: React.FC = () => {
@@ -16,12 +17,40 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/fakelinks" element={<FakeLinks />} />
-          <Route path="/add-product" element={<AddOrEditProduct />} />
-          <Route path="/edit-product/:productID" element={<AddOrEditProduct />} />
-          <Route path="/product-detail/:productID" element={<ProductDetail />} />
+          <Route
+            path="/add-product"
+            element={
+              <PrivateRoute>
+                <AddOrEditProduct />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/edit-product/:productID"
+            element={
+              <PrivateRoute>
+                <AddOrEditProduct />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/product-detail/:productID"
+            element={
+              <PrivateRoute>
+                <ProductDetail />
+              </PrivateRoute>
+            }
+          />
           <Route path="/signin" element={<AuthForm />} />
           <Route path="/signup" element={<AuthForm />} />
-          <Route path="/update-password" element={<AuthForm />} />
+          <Route
+            path="/update-password"
+            element={
+              <PrivateRoute>
+                <AuthForm />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
