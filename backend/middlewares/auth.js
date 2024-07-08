@@ -1,20 +1,31 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const SECRET = process.env.SECRET;
 
-module.exports = async (req, res, next) => {
-  const token = req.header('x-auth-token') || req.header('authorization')?.split(' ')[1];
-
-  if (!token){
-    req.user = null;
-    return next();
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+  
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided' });
   }
 
-  try{
-    const decoded = await jwt.verify(token, process.env.SECRET);
+  const tokenParts = token.split(' ');
+  if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+    return res.status(400).json({ error: 'Malformed token' });
+  }
+
+  const actualToken = tokenParts[1];
+  console.log('Token received:', actualToken);
+
+  jwt.verify(actualToken, SECRET, (err, decoded) => {
+    if (err) {
+      console.error('Token verification failed:', err);
+      return res.status(403).json({ error: 'Failed to authenticate token' });
+    }
+
     req.user = decoded;
     next();
-  }
-  catch (err){
-    res.status(401).json({ error: 'Token is not valid' });
-  } 
-
+  });
 };
+
+module.exports = { verifyToken };

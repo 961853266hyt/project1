@@ -19,6 +19,8 @@ app.use('/api/users', userRouter);
 app.use('/api/carts', cartRouter);
 app.use('/api/products', productRouter);
 
+
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });

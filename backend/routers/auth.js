@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User'); 
 const router = express.Router();
 const { createUser } = require('../controllers/userController');
+const { verifyToken } = require('../middlewares/auth')
 
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
@@ -27,7 +28,13 @@ router.post('/signin', async (req, res) => {
   }
 });
 
+router.get('/verifyToken', verifyToken, (req, res) => {
+  res.json({ user: req.user });
+});
+
 router.post('/signup', createUser);
 router.post('/update-password')
+
+
 
 module.exports = router;
