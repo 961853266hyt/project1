@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCart } from '../../redux/actions.js';
+import { AppState } from "../../type.js";
+import { AxiosError } from "axios"
 
 interface ProductProps {
   product: {
@@ -22,8 +24,8 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({ role, userId, product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
-  const cart = useSelector((state) => state.cart);
+  const user = useSelector((state: AppState) => state.user);
+  const cart = useSelector((state: AppState) => state.cart);
   const [editing, setEditing] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState<number | null>(null);
 
@@ -44,8 +46,9 @@ const Product: React.FC<ProductProps> = ({ role, userId, product }) => {
       await dispatch(updateCart(user._id, productId, 'add'));
     } 
     catch (error) {
-      if (error.response && error.response.data.message) {
-        alert(error.response.data.message);
+      const err = error as AxiosError<{ message: string }>;
+      if (err.response && err.response.data.message) {
+        alert(err.response.data.message);
       } 
       else {
         alert('An error occurred while adding the product to the cart.');
@@ -66,8 +69,9 @@ const Product: React.FC<ProductProps> = ({ role, userId, product }) => {
       }
     } 
     catch (error) {
-      if (error.response && error.response.data.message) {
-        alert(error.response.data.message);
+      const err = error as AxiosError<{ message: string }>;
+      if (err.response && err.response.data.message) {
+        alert(err.response.data.message);
       } 
       else {
         alert('An error occurred while updating the product in the cart.');
@@ -94,7 +98,7 @@ const Product: React.FC<ProductProps> = ({ role, userId, product }) => {
     }
   };
 
-  const productInCart = cart.products.find((item) => item.product._id === product._id);
+  const productInCart = cart?.products.find((item) => item.product._id === product._id);
 
   return(
     <div className="col-span-1 w-full h-72 border border-gray-300 rounded flex flex-col">
