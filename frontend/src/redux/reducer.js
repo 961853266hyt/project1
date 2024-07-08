@@ -73,6 +73,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: null,
+        cart: null,
       };
     default:
       return state;
