@@ -7,6 +7,7 @@ import { signIn, signUp } from '../redux/actions';
 import { Link } from 'react-router-dom';
 import { EmailSend } from './icons/EmailSend';
 import CustomInput from './custom/CustomInput';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const SignInLinks = () => {
   return (
@@ -30,6 +31,7 @@ const AuthForm: React.FC = () => {
 
   const [emailSent, setEmailSent] = useState(false);
   const [pageType, setPageType] = useState(location.pathname);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     setPageType(location.pathname);
@@ -113,7 +115,9 @@ const AuthForm: React.FC = () => {
               <h2 className="text-xl font-bold mb-4 text-center">{headers[pageType]}</h2>
               <CustomInput label="Email" name="email" type="email" />
               {location.pathname !== '/update-password' && (
-                <CustomInput label="Password" name="password" type="password" />
+                <CustomInput label="Password" name="password" type={showPassword ? 'text' : 'password'}
+                showPassword={showPassword}
+                toggleShowPassword={() => setShowPassword(!showPassword)}  />
               )}
               {location.pathname === '/signup' && (
                 <div className="mb-4">
