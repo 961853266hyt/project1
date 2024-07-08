@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { signIn, signUp, updatePassword } from '../redux/actions';
+import { signIn, signUp } from '../redux/actions';
 import { Link } from 'react-router-dom';
 import { EmailSend } from './icons/EmailSend';
 
