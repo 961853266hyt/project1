@@ -11,7 +11,7 @@ import PrivateRoute from '../components/PrivateRoute';
 
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { SIGN_IN } from '../redux/actions'
+import { SIGN_IN, GET_CART_BY_ID } from '../redux/actions'
 
 const JWT_KEY = 'token'
 const API_URL = 'http://localhost:8000';
@@ -29,7 +29,17 @@ const App: React.FC = () => {
         }
       })
       .then(response => {
+        const user = response.data.user;
+        console.log('user',user);
         dispatch({ type: SIGN_IN, payload: response.data.user });
+        return axios.get(`${API_URL}/api/carts/${user.sub}`, {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        });
+      })
+      .then(cartResponse => {
+        dispatch({ type: GET_CART_BY_ID, payload: cartResponse.data });
       })
       .catch(error => {
         console.error('Token verification failed:', error);

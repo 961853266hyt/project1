@@ -29,7 +29,7 @@ router.post('/signin', async (req, res) => {
 });
 
 router.get('/verifyToken', verifyToken, (req, res) => {
-  res.json({ user: req.user });
+  res.json({  user:req.user });
 });
 
 router.post('/signup', createUser);
