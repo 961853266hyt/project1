@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { signIn, signUp } from '../redux/actions';
@@ -37,6 +37,12 @@ const AuthForm: React.FC = () => {
     });
 
     const [emailSent, setEmailSent] = useState(false);
+    const [pageType, setPageType] = useState(location.pathname);
+
+    useEffect(() => {
+      setPageType(location.pathname);
+      setEmailSent(false); 
+    }, [location.pathname]);
     
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();

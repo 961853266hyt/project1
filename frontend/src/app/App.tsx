@@ -46,9 +46,7 @@ const App: React.FC = () => {
           <Route
             path="/update-password"
             element={
-              <PrivateRoute>
                 <AuthForm />
-              </PrivateRoute>
             }
           />
           <Route path="*" element={<NotFound />} />
