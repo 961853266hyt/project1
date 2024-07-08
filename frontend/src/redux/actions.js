@@ -26,7 +26,7 @@ export const signIn = (credentials) => async (dispatch) => {
   } catch (error) {
     if (error.response && error.response.data) {
       console.error('Error:', error.response.data.message);
-      alert(error.response.data.message); 
+      alert('password or email incorrect!'); 
     } else {
       console.error('Error:', error.message);
       alert('An error occurred during sign-in. Please try again later.');
