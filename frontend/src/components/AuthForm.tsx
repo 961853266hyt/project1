@@ -7,7 +7,7 @@ import { signIn, signUp } from '../redux/actions';
 import { Link } from 'react-router-dom';
 import { EmailSend } from './icons/EmailSend';
 import CustomInput from './custom/CustomInput';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 const SignInLinks = () => {
   return (

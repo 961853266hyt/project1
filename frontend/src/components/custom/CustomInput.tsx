@@ -23,11 +23,12 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 const CustomInput: React.FC<{ label: string; name: string; type?: string; showPassword?: boolean; toggleShowPassword?: () => void }> = ({ label, showPassword, toggleShowPassword, ...props }) => {
   const [field, meta] = useField(props);
   const errorClass = meta.touched && meta.error ? 'border-error-orange' : 'border-gray-300';
+  const isPasswordField = props.name === 'password';  
   return (
     <div className="mb-4 relative">
       <label className="block text-main-grey">{label}</label>
       <input {...field} {...props} className={`w-full px-4 py-2 border rounded mt-1 ${errorClass}`} />
-      {props.type === 'password' && (
+      {isPasswordField && toggleShowPassword && (
         <div
           className="absolute right-3 top-10 cursor-pointer"
           onClick={toggleShowPassword}
