@@ -88,7 +88,7 @@ const Home: React.FC = () => {
   const paginatedProducts = sortedProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   if (!user){
-    return <div> Please log in first... </div>
+    return <div className='text-3xl font-bold'> Please log in first to see the product... </div>
   }
 
   return (
