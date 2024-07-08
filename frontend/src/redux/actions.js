@@ -17,12 +17,35 @@ export const GET_CART_BY_ID = 'GET_CART_BY_ID';
 export const UPDATE_CART = 'UPDATE_CART';
 const JWT_KEY = 'token';
 
+const getToken = () => localStorage.getItem(JWT_KEY);
+
+const setAuthHeader = () => {
+  const token = getToken();
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common['Authorization'];
+  }
+};
+
+export const getUser = () => async (dispatch) => {
+  setAuthHeader();
+  try {
+    const response = await axios.get(`${API_URL}/api/auth/user`);
+    dispatch({ type: SIGN_IN, payload: response.data });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+  }
+};
+
 export const signIn = (credentials) => async (dispatch) => {
   try {
-      const response = await axios.post(`${API_URL}/api/auth/signin`, credentials);
-      const { token, user } = response.data;
-      localStorage.setItem(JWT_KEY, token);
-      dispatch({ type: SIGN_IN, payload: user });
+    const response = await axios.post(`${API_URL}/api/auth/signin`, credentials);
+    const { token, user } = response.data;
+    localStorage.setItem(JWT_KEY, token);
+    setAuthHeader();
+    dispatch({ type: SIGN_IN, payload: user });
+    dispatch(getCartById(user._id));
   } catch (error) {
     if (error.response && error.response.data) {
       console.error('Error:', error.response.data.message);
@@ -32,26 +55,26 @@ export const signIn = (credentials) => async (dispatch) => {
       alert('An error occurred during sign-in. Please try again later.');
     }
   }
-
-  
 };
 
 export const signUp = (credentials) => async (dispatch) => {
   try {
-      const response = await axios.post(`${API_URL}/api/auth/signup`, credentials);
-      const { token, user } = response.data;
-      localStorage.setItem(JWT_KEY, token);
-      dispatch({ type: SIGN_UP, payload: user });
+    const response = await axios.post(`${API_URL}/api/auth/signup`, credentials);
+    const { token, user } = response.data;
+    localStorage.setItem(JWT_KEY, token);
+    setAuthHeader();
+    dispatch({ type: SIGN_UP, payload: user });
+    dispatch(getCartById(user._id)); 
   } catch (error) {
     if (error.response && error.response.data) {
       console.error('Error:', error.response.data.message);
-      alert(error.response.data.message); 
+      alert(error.response.data.message);
     } else {
       console.error('Error:', error.message);
       alert('An error occurred during sign-up. Please try again later.');
     }
   }
-}
+};
 
 export const updatePassword = (credentials) => async (dispatch) => {
   try {
@@ -63,8 +86,9 @@ export const updatePassword = (credentials) => async (dispatch) => {
 }
 
 export const logOut = () => (dispatch) => {
-  localStorage.removeItem(JWT_KEY); // remove JWT token
-  dispatch({type: LOG_OUT});
+  localStorage.removeItem(JWT_KEY);
+  setAuthHeader();
+  dispatch({ type: LOG_OUT });
 };
 
 export const setProducts = (products) => ({
@@ -73,10 +97,10 @@ export const setProducts = (products) => ({
 
 export const fetchProducts = () => {
   return (dispatch) => {
-    fetch("http://localhost:8000/api/products")
-      .then(response => response.json())
-      .then(data => dispatch(setProducts(data)))
-      .catch(error => console.error('Error fetching data:', error));
+    fetch(`${API_URL}/api/products`)
+      .then((response) => response.json())
+      .then((data) => dispatch(setProducts(data)))
+      .catch((error) => console.error('Error fetching data:', error));
   };
 };
 
@@ -111,6 +135,7 @@ export const getProductById = (id) => async (dispatch) => {
 
 export const getCartById = (userId) => async (dispatch) => {
   try {
+    setAuthHeader();
     const response = await axios.get(`${API_URL}/api/carts/${userId}`);
     dispatch({ type: GET_CART_BY_ID, payload: response.data });
   } catch (error) {
