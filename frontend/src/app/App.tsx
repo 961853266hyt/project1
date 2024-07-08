@@ -22,7 +22,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const token = localStorage.getItem(JWT_KEY);
     if (token) {
-      console.log('token found!', token);
+      //console.log('token found!', token);
       axios.get(`${API_URL}/api/auth/verifyToken`, {
         headers: {
           authorization: `Bearer ${token}`
@@ -30,9 +30,9 @@ const App: React.FC = () => {
       })
       .then(response => {
         const user = response.data.user;
-        console.log('user',user);
-        dispatch({ type: SIGN_IN, payload: response.data.user });
-        return axios.get(`${API_URL}/api/carts/${user.sub}`, {
+        //console.log('user',user);
+        dispatch({ type: SIGN_IN, payload: user });
+        return axios.get(`${API_URL}/api/carts/${user._id}`, {
           headers: {
             authorization: `Bearer ${token}`
           }

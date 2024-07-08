@@ -25,7 +25,7 @@ const createUser = async (req, res) => {
         await newCart.save();
 
         const payload = {
-            _id: user._id,
+            sub: user._id,
         };
       
         const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1d' });

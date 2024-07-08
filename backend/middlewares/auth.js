@@ -34,7 +34,6 @@ const SECRET = process.env.SECRET;
 const User = require('../models/User');
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
-  console.log("111");
   if (!token) {
     return res.status(401).json({ error: 'No token provided' });
   }
