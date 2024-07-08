@@ -6,7 +6,8 @@ import { SET_PRODUCTS, ADD_PRODUCT, UPDATE_PRODUCT, GET_PRODUCT_BY_ID, GET_CART_
 
 const initialState = {
   products: [],
-  user: {
+  user: 
+  {
     role: 'admin',
     _id: '6671626f5993eb8b87c0c194'
     // _id: '667162335993eb8b87c0c192'
