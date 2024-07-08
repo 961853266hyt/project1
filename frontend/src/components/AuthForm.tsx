@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { signIn, signUp, updatePassword } from '../redux/actions';
 import { Link } from 'react-router-dom';
+import { EmailSend } from './icons/EmailSend';
 
 
 interface FormData {
@@ -21,6 +22,8 @@ const SignInLinks = () => {
   );
 };
 
+
+
 const AuthForm: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -30,6 +33,8 @@ const AuthForm: React.FC = () => {
         email: '',
         password: '',
     });
+
+    const [emailSent, setEmailSent] = useState(false);
     
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -37,12 +42,15 @@ const AuthForm: React.FC = () => {
         if (location.pathname === '/signin') {
             // dispatch signin action
             await dispatch(signIn({email, password, role:"user"}));
+            navigate('/'); 
         } else if (location.pathname === '/signup') {
             await dispatch(signUp({email, password, role:"user"}));
+            navigate('/'); 
         } else if (location.pathname === '/update-password') {
-            await dispatch(updatePassword(email));
+            //await dispatch(updatePassword(email));
+            setEmailSent(true);
         }
-        navigate('/'); // redirect to home page
+       
     }
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +62,7 @@ const AuthForm: React.FC = () => {
     }
 
     const handleClose = () => {
+      setEmailSent(false);
       navigate('/');
     }
     const signinHeader = 'Sign in to your account'
@@ -62,6 +71,23 @@ const AuthForm: React.FC = () => {
     const signinBtn = 'Sign in'
     const signupBtn = 'Create account'
     const updatePasswordBtn = 'Update password'
+
+    if (emailSent) {
+      return (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="relative p-12 border border-gray-300 rounded shadow-lg text-center">
+            <button
+              onClick={handleClose}
+              className="absolute top-2 right-2 text-black"
+            >
+              &times;
+            </button>
+            <EmailSend />
+            <p className="text-lg font-semibold">We have sent the update password link to your email, please check that!</p>
+          </div>
+        </div>
+      );
+    }
     return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="relative w-full max-w-2xl p-6 border border-gray-300 rounded shadow-lg">
