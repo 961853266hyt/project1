@@ -4,7 +4,8 @@ import { CartIcon } from './icons/CartIcon';
 import { SearchIcon } from './icons/SearchIcon';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCartById } from '../redux/actions';
+import { getCartById, logOut } from '../redux/actions';
+
 
 const Header: React.FC<{ onCartIconClick: () => void }> = ({ onCartIconClick }) => {
   const navigate = useNavigate();
@@ -30,6 +31,15 @@ const Header: React.FC<{ onCartIconClick: () => void }> = ({ onCartIconClick }) 
     }
   };
 
+  const handleLogin = () => {
+    navigate(`/signin`);
+  }
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    navigate(`/`);
+  }
+
   const cartTotalPrice = cart?.products.reduce((total, item) => total + item.number * item.product.price, 0) || 0;
   const cartTotal = cart?.products.reduce((total, item) => total + item.number, 0) || 0;
 
@@ -53,16 +63,18 @@ const Header: React.FC<{ onCartIconClick: () => void }> = ({ onCartIconClick }) 
         </label>
 
         <section className="ms-auto w-full col-start-3 col-span-2 md:col-start-4 md:col-span-1 grid grid-cols-4 sm:grid-cols-3 lg:grid-cols-2 order-2 lg:order-3">
-          {/* {
-            isLogin &&
-          } */}
-          <div className="flex justify-end col-span-1">
-            <ProfileIcon/>
-            <p className="ml-1 hidden lg:block">Login</p>
-          </div>
-          {/* {
-            isLogin &&
-          } */}
+
+          {user ? (
+            <button onClick={handleLogout} className="flex justify-end col-span-1">
+              <ProfileIcon/>
+              <p className="ml-1 hidden lg:block">Logout</p>
+            </button>
+          ) : (
+            <button onClick={handleLogin} className="flex justify-end col-span-1">
+              <ProfileIcon/>
+              <p className="ml-1 hidden lg:block">Login</p>
+          </button>
+          )}
           <div className="flex justify-end col-span-3 sm:col-span-2 lg:col-span-1">
             <div onClick={handleCartIconClick} className='cursor-pointer relative'>
               <CartIcon />

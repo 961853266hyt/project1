@@ -20,22 +20,34 @@ const JWT_KEY = 'token';
 export const signIn = (credentials) => async (dispatch) => {
   try {
       const response = await axios.post(`${API_URL}/api/auth/signin`, credentials);
-      const { token } = response.data;
+      const { token, user } = response.data;
       localStorage.setItem(JWT_KEY, token);
-      dispatch({ type: SIGN_IN, payload: response.data });
+      dispatch({ type: SIGN_IN, payload: user });
   } catch (error) {
-      console.error(error);
+    if (error.response && error.response.data) {
+      console.error('Error:', error.response.data.message);
+      alert(error.response.data.message); 
+    } else {
+      console.error('Error:', error.message);
+      alert('An error occurred during sign-in. Please try again later.');
+    }
   }
 };
 
 export const signUp = (credentials) => async (dispatch) => {
   try {
       const response = await axios.post(`${API_URL}/api/auth/signup`, credentials);
-      const { token } = response.data;
+      const { token, user } = response.data;
       localStorage.setItem(JWT_KEY, token);
-      dispatch({ type: SIGN_UP, payload: response.data });
+      dispatch({ type: SIGN_UP, payload: user });
   } catch (error) {
-      console.error(error);
+    if (error.response && error.response.data) {
+      console.error('Error:', error.response.data.message);
+      alert(error.response.data.message); 
+    } else {
+      console.error('Error:', error.message);
+      alert('An error occurred during sign-up. Please try again later.');
+    }
   }
 }
 
