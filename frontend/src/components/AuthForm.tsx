@@ -9,6 +9,7 @@ import { EmailSend } from './icons/EmailSend';
 interface FormData {
     email: string;
     password: string;
+    role: string;
 }
 
 const SignInLinks = () => {
@@ -32,19 +33,20 @@ const AuthForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
         email: '',
         password: '',
+        role: 'user',
     });
 
     const [emailSent, setEmailSent] = useState(false);
     
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        const { email, password} = formData;
+        const { email, password, role} = formData;
         if (location.pathname === '/signin') {
             // dispatch signin action
-            await dispatch(signIn({email, password, role:"user"}));
+            await dispatch(signIn({email, password}));
             navigate('/'); 
         } else if (location.pathname === '/signup') {
-            await dispatch(signUp({email, password, role:"user"}));
+            await dispatch(signUp({email, password, role}));
             navigate('/'); 
         } else if (location.pathname === '/update-password') {
             //await dispatch(updatePassword(email));
@@ -54,10 +56,10 @@ const AuthForm: React.FC = () => {
     }
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: type === 'checkbox'?(checked?'admin':'user'):value,
         });
     }
 
@@ -135,6 +137,20 @@ const AuthForm: React.FC = () => {
              location.pathname === '/signup' ? signupBtn :
              updatePasswordBtn}
           </button>
+          {location.pathname === '/signup' && (
+            <div className="mb-4">
+              <label className="block mb-1">
+                <input
+                  type="checkbox"
+                  name="role"
+                  checked={formData.role === 'admin'}
+                  onChange={handleChange}
+                  className="mr-2"
+                />
+                Register as admin
+              </label>
+            </div>
+          )}
           {location.pathname === '/signin' && <SignInLinks />}
         </form>
       </div>
