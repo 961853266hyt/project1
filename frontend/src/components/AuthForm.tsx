@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { signIn, signUp, updatePassword } from '../redux/actions';
+import { Link } from 'react-router-dom';
 
 
 interface FormData {
@@ -9,6 +10,16 @@ interface FormData {
     password: string;
 }
 
+const SignInLinks = () => {
+  return (
+    <div className="flex justify-between mt-4 text-sm">
+      <h2>Don't have an account?</h2>
+      <Link to="/signup" className="text-blue-500 underline"><span className="font-semibold">Sign up</span></Link>
+      <span className="mx-4"></span>
+      <Link to="/update-password" className="text-blue-500 underline font-semibold">Forgot password?</Link>
+    </div>
+  );
+};
 
 const AuthForm: React.FC = () => {
     const location = useLocation();
@@ -98,6 +109,7 @@ const AuthForm: React.FC = () => {
              location.pathname === '/signup' ? signupBtn :
              updatePasswordBtn}
           </button>
+          {location.pathname === '/signin' && <SignInLinks />}
         </form>
       </div>
     </div>
