@@ -15,6 +15,7 @@ export default {
         "main-light-gray": "#F9FAFB",
         "main-grey": "#6B7280",
         "dark-grey": "#535353",
+        "button-grey": "#CCCCCC",
         "user-yellow": "#FCE944",
         "main-red": "#F53838",
         "error-orange": "#FC5A44",

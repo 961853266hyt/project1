@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartById } from '../redux/actions';
 
-const Header: React.FC = () => {
+const Header: React.FC<{ onCartIconClick: () => void }> = ({ onCartIconClick }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
@@ -23,6 +23,7 @@ const Header: React.FC = () => {
   };
 
   const cartTotalPrice = cart?.products.reduce((total, item) => total + item.number * item.product.price, 0) || 0;
+  const cartTotal = cart?.products.reduce((total, item) => total + item.number, 0) || 0;
 
   return (
     <header className="px-8 lg:px-12 fixed top-0 left-0 w-full h-32 lg:h-16 bg-gray-800 text-white justify-around">
@@ -43,19 +44,26 @@ const Header: React.FC = () => {
           </div>
         </label>
 
-        <section className="ms-auto w-full lg:w-4/5 col-start-3 col-span-2 md:col-start-4 md:col-span-1 grid grid-cols-2 order-2 lg:order-3">
+        <section className="ms-auto w-full col-start-3 col-span-2 md:col-start-4 md:col-span-1 grid grid-cols-4 sm:grid-cols-3 lg:grid-cols-2 order-2 lg:order-3">
           {/* {
             isLogin &&
           } */}
-          <div className="flex">
+          <div className="flex justify-end col-span-1">
             <ProfileIcon/>
             <p className="ml-1 hidden lg:block">Login</p>
           </div>
           {/* {
             isLogin &&
           } */}
-          <div className="flex">
-            <CartIcon/>
+          <div className="flex justify-end col-span-3 sm:col-span-2 lg:col-span-1">
+            <div onClick={onCartIconClick} className='cursor-pointer relative'>
+              <CartIcon />
+              {cartTotal > 0 && (
+                <div className="absolute top-0 right-0 bg-main-red text-white rounded-full text-xs w-4 h-4 flex text-center justify-center items-start">
+                  {cartTotal}
+                </div>
+              )}
+            </div>
             <p className="ml-1">${cartTotalPrice.toFixed(2)}</p>
           </div>
 

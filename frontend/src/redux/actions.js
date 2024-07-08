@@ -104,11 +104,13 @@ export const getCartById = (userId) => async (dispatch) => {
   }
 };
 
-export const updateCart = (userId, productId, action) => async (dispatch) => {
+export const updateCart = (userId, productId, action, quantity) => async (dispatch) => {
   try {
-    const response = await axios.patch(`${API_URL}/api/carts/${userId}`, { productId, action });
+    await axios.patch(`${API_URL}/api/carts/${userId}`, { productId, action, quantity });
+    const response = await axios.get(`${API_URL}/api/carts/${userId}`);
     dispatch({ type: UPDATE_CART, payload: response.data });
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
