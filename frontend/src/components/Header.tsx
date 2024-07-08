@@ -14,13 +14,21 @@ const Header: React.FC<{ onCartIconClick: () => void }> = ({ onCartIconClick }) 
   const cart = useSelector(state => state.cart);
 
   useEffect(() => {
-    if (user._id) {
+    if (user && user._id) {
       dispatch(getCartById(user._id));
     }
-  }, [dispatch, user._id]);
+  }, [dispatch, user]);
 
   const handleHome = () => {
     navigate(`/`);
+  };
+
+  const handleCartIconClick = () => {
+    if (!user) {
+      alert('Please log in first');
+    } else {
+      onCartIconClick();
+    }
   };
 
   const handleLogin = () => {
@@ -68,7 +76,7 @@ const Header: React.FC<{ onCartIconClick: () => void }> = ({ onCartIconClick }) 
           </button>
           )}
           <div className="flex justify-end col-span-3 sm:col-span-2 lg:col-span-1">
-            <div onClick={onCartIconClick} className='cursor-pointer relative'>
+            <div onClick={handleCartIconClick} className='cursor-pointer relative'>
               <CartIcon />
               {cartTotal > 0 && (
                 <div className="absolute top-0 right-0 bg-main-red text-white rounded-full text-xs w-4 h-4 flex text-center justify-center items-start">

@@ -25,6 +25,7 @@ const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   
+  
   const navigate = useNavigate();
 
   const handleAddProductClick = () => {
@@ -85,6 +86,10 @@ const Home: React.FC = () => {
 
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
   const paginatedProducts = sortedProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  if (!user){
+    return <div> Please log in first... </div>
+  }
 
   return (
     <>
