@@ -12,6 +12,7 @@ import PrivateRoute from '../components/PrivateRoute';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { SIGN_IN, GET_CART_BY_ID } from '../redux/actions'
+import ManualErrorTest from '../components/custom/ManualErrorTest'
 
 const JWT_KEY = 'token'
 const API_URL = 'http://localhost:8000';
@@ -89,6 +90,7 @@ const App: React.FC = () => {
             }
           />
           <Route path="*" element={<NotFound />} />
+          <Route path="/error-test" element={<ManualErrorTest />} />
         </Routes>
       </Layout>
     </Router>
